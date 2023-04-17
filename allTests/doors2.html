@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <title>Doors Task</title>
+    <script src="https://unpkg.com/jspsych@7.3.1"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@1.1.2"></script>
+	<script src="https://unpkg.com/@jspsych/plugin-image-keyboard-response@1.1.2"></script>
+	<script src="https://unpkg.com/@jspsych/plugin-preload@1.1.2"></script>
+    <link href="https://unpkg.com/jspsych@7.3.1/css/jspsych.css" rel="stylesheet" type="text/css" />
+    <style>
+      .flanker-stimulus {
+        font-size: 500%; color: white;
+      }
+      .debrief-text {
+        font-size: 25px; color: white;
+      }
+    </style>
+  </head>
+  <body style="background-color:black;"><font color="white"></font></body>
+  <script>
+
+    var jsPsych = initJsPsych({
+      default_iti: 1000,
+      on_finish: function() {
+        const d = new Date();
+        const ee = d.getMilliseconds();
+        const millis = Date.now();
+        var csv=jsPsych.data.get().localSave('csv', 'doors2Data_'+d+'_milliseconds_'+ee+'_utc_'+millis+'.csv');
+        jsPsych.data.displayData();
+      }
+    });
+
+    var preload = {
+      type: jsPsychPreload,
+      auto_preload: false
+    };
+
+
+    const trial_mid = {
+      type: jsPsychHtmlKeyboardResponse,
+      stimulus: '<p><font color="white">300 cents so far.</font></p>',
+
+      trial_duration: 1000
+    }
+
+	const trial_end = {
+      type: jsPsychHtmlKeyboardResponse,
+      stimulus: '<p><font color="white">475 cents total.</font></p>',
+
+      trial_duration: 1000
+    }
+
+	
+
+    var trial_0 = {
+      type: jsPsychImageKeyboardResponse,
+      choices: ['d'],
+      render_on_canvas: false,
+
+      prompt: '<p><font color="white">Bet on a door with A (for left) or S (for right) keys. Press D to start.</font></p>'
+    };
+	
+    var trial_doors = {
+      type: jsPsychImageKeyboardResponse,
+      stimulus: 'img/2Doors.bmp',
+      choices: ['a','s'],
+	  
+      render_on_canvas: true,
+
+    };
+
+    var trial_up = {
+      type: jsPsychImageKeyboardResponse,
+      stimulus: 'img/UpArrow.jpg',
+      trial_duration: 1000, 
+      render_on_canvas: true,
+
+    };
+
+    var trial_down = {
+      type: jsPsychImageKeyboardResponse,
+      stimulus: 'img/DownArrow.jpg',
+      trial_duration: 1000,
+      render_on_canvas: true,
+
+    };
+
+    var trial_cross = {
+      type: jsPsychImageKeyboardResponse,
+      stimulus: 'img/fixation.bmp',
+      trial_duration: 1000,
+      render_on_canvas: true,
+
+    };
+
+
+    jsPsych.run([preload, trial_0, trial_doors, trial_cross, trial_down, trial_cross, trial_doors, trial_cross, trial_up, trial_cross, trial_doors, trial_cross, trial_up, trial_cross, trial_doors, trial_cross, trial_down, trial_cross, trial_doors, trial_cross, trial_down, trial_cross, trial_doors, trial_cross, trial_up, trial_cross, trial_doors, trial_cross, trial_up, trial_cross, trial_doors, trial_cross, trial_down, trial_cross, trial_doors, trial_cross, trial_up, trial_cross, trial_doors, trial_cross, trial_up, trial_cross, trial_doors, trial_cross, trial_up, trial_cross, trial_doors, trial_cross, trial_down, trial_cross, trial_doors, trial_cross, trial_down, trial_cross, trial_doors, trial_cross, trial_up, trial_cross, trial_doors, trial_cross, trial_up, trial_cross, trial_mid, trial_doors, trial_cross, trial_up, trial_cross, trial_doors, trial_cross, trial_down, trial_cross, trial_doors, trial_cross, trial_down, trial_cross, trial_doors, trial_cross, trial_up, trial_cross, trial_doors, trial_cross, trial_down, trial_cross, trial_doors, trial_cross, trial_up, trial_cross, trial_doors, trial_cross, trial_down, trial_cross, trial_doors, trial_cross, trial_down, trial_cross, trial_doors, trial_cross, trial_up, trial_cross, trial_doors, trial_cross, trial_up, trial_cross, trial_doors, trial_cross, trial_up, trial_cross, trial_doors, trial_cross, trial_down, trial_cross, trial_doors, trial_cross, trial_up, trial_cross, trial_doors, trial_cross, trial_down, trial_cross, trial_doors, trial_cross, trial_up, trial_cross, trial_doors, trial_cross, trial_down, trial_cross, trial_end]);
+
+  </script>
+</html>

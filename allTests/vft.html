@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Verbal Fluency Task</title>
+    <script src="https://unpkg.com/jspsych@7.3.1"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@1.1.2"></script>
+    <link href="https://unpkg.com/jspsych@7.3.1/css/jspsych.css" rel="stylesheet" type="text/css" />
+	    <style>
+      .flanker-stimulus {
+        font-size: 500%; color: white;
+      }
+      .debrief-text {
+        font-size: 25px; color: white;
+      }
+    </style>
+  </head>
+  <body style="background-color:black;"><font color="white"></font></body>
+  <script>
+	var PRESENTATION_DURATION = 30000;
+
+    const jsPsych = initJsPsych({
+      on_finish: function() {
+        const d = new Date();
+        const ee = d.getMilliseconds();
+        const millis = Date.now();
+        var csv=jsPsych.data.get().localSave('csv', 'vftData_'+d+'_milliseconds_'+ee+'_utc_'+millis+'.csv');
+        jsPsych.data.displayData();
+      }
+    });
+
+
+    const introduction = {
+      type: jsPsychHtmlKeyboardResponse,
+      stimulus: '<p><font color="white">Follow the onscreen cues. Press W to start.</font></p>',
+
+      choices: ['w']
+    }	
+	
+    const rest = {
+      type: jsPsychHtmlKeyboardResponse,
+      stimulus: '<p><font color="white">REST.</font></p>',
+
+      trial_duration: PRESENTATION_DURATION
+    }
+    const letters = {
+      type: jsPsychHtmlKeyboardResponse,
+      stimulus: '<p><font color="white">SAY "A","B","C","D","E."</font></p>',
+
+      trial_duration: PRESENTATION_DURATION
+    }
+    const names = {
+      type: jsPsychHtmlKeyboardResponse,
+      stimulus: '<p><font color="white">SAY ANIMAL NAMES.</font></p>',
+
+      trial_duration: PRESENTATION_DURATION
+    }
+
+    const endscreen = {
+      type: jsPsychHtmlKeyboardResponse,
+      stimulus: '<p><font color="white">Task complete.</font></p>',
+
+      trial_duration: 1000
+    }	
+	
+    jsPsych.run([introduction,rest,letters,names,rest,letters,names,endscreen]);
+  </script>
+</html>

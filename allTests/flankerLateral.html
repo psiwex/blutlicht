@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <title>Flanker Task</title>
+    <script src="https://unpkg.com/jspsych@7.3.1"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@1.1.2"></script>
+    <link href="https://unpkg.com/jspsych@7.3.1/css/jspsych.css" rel="stylesheet" type="text/css" />
+    <style>
+      .flanker-stimulus {
+        font-size: 500%; color: white;
+      }
+      .debrief-text {
+        font-size: 25px; color: white;
+      }
+    </style>
+  </head>
+  <body style="background-color:black;"><font color="white"></font></body>
+  <script>
+
+    var jsPsych = initJsPsych({
+      on_finish: function() {
+        const d = new Date();
+        const ee = d.getMilliseconds();
+        const millis = Date.now();
+        var csv=jsPsych.data.get().localSave('csv', 'flankerLateralData_'+d+'_milliseconds_'+ee+'_utc_'+millis+'.csv');
+        jsPsych.data.displayData();
+      }
+    });
+    
+	
+    const introduction = {
+      type: jsPsychHtmlKeyboardResponse,
+      stimulus: '<p><font color="white">Quickly press C if central letter is A/B/C/D. Quickly press M if the central letter is W/X/Y/Z. Press E to start.</font></p>',
+
+      choices: ['e']
+    }	
+	
+
+
+    const blockbreak = {
+      type: jsPsychHtmlKeyboardResponse,
+      stimulus: '<p><font color="white">Block complete. Press E to continue.</font></p>',
+
+      choices: ['e']
+    }	
+	
+	
+		
+	
+    var test_stimuli = [
+      { stimulus: "  A AA", data: { stim_type: 'identical'} },
+      { stimulus: "  B BB", data: { stim_type: 'identical'} },
+      { stimulus: "  W WW", data: { stim_type: 'identical'} },
+      { stimulus: "  X XX", data: { stim_type: 'identical'} },
+      { stimulus: "CC C ", data: { stim_type: 'identical'} },
+      { stimulus: "DD D ", data: { stim_type: 'identical'} },
+      { stimulus: "YY Y ", data: { stim_type: 'identical'} },
+      { stimulus: "ZZ Z ", data: { stim_type: 'identical'} },
+
+      { stimulus: "  A BB", data: { stim_type: 'incongruent'} },
+      { stimulus: "  B AA", data: { stim_type: 'incongruent'} },
+      { stimulus: "  W XX", data: { stim_type: 'incongruent'} },
+      { stimulus: "  X WW", data: { stim_type: 'incongruent'} },
+      { stimulus: "DD C ", data: { stim_type: 'incongruent'} },
+      { stimulus: "CC D ", data: { stim_type: 'incongruent'} },
+      { stimulus: "ZZ Y ", data: { stim_type: 'incongruent'} },
+      { stimulus: "YY Z ", data: { stim_type: 'incongruent'} },
+
+      { stimulus: "  A WW", data: { stim_type: 'incompatible'} },
+      { stimulus: "  B XX", data: { stim_type: 'incompatible'} },
+      { stimulus: "  W AA", data: { stim_type: 'incompatible'} },
+      { stimulus: "  X BB", data: { stim_type: 'incompatible'} },
+      { stimulus: "YY C ", data: { stim_type: 'incompatible'} },
+      { stimulus: "ZZ D ", data: { stim_type: 'incompatible'} },
+      { stimulus: "CC Y ", data: { stim_type: 'incompatible'} },
+      { stimulus: "DD Z ", data: { stim_type: 'incompatible'} }
+
+    ];
+
+
+
+    var test = {
+      timeline: [{
+        type: jsPsychHtmlKeyboardResponse,
+        choices: ['c', 'm'],
+        stimulus: jsPsych.timelineVariable('stimulus'),
+        data: jsPsych.timelineVariable('data'),
+        post_trial_gap: 1000,
+		trial_duration: 1500,
+        response_ends_trial: true,
+        css_classes: ['flanker-stimulus']
+      }],
+      timeline_variables: test_stimuli,
+      sample: {type: 'fixed-repetitions', size: 6}
+    };
+
+
+
+
+    var timeline = [];
+    timeline.push(introduction);
+    timeline.push(test);
+    timeline.push(blockbreak);
+    timeline.push(test);
+    timeline.push(blockbreak);
+    timeline.push(test);
+    timeline.push(blockbreak);
+    timeline.push(test);
+    timeline.push(blockbreak);
+    timeline.push(test);
+    timeline.push(blockbreak);
+    timeline.push(test);
+
+    jsPsych.run(timeline);
+
+  </script>
+</html>

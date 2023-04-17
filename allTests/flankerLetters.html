@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <title>Flanker Task</title>
+    <script src="https://unpkg.com/jspsych@7.3.1"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@1.1.2"></script>
+    <link href="https://unpkg.com/jspsych@7.3.1/css/jspsych.css" rel="stylesheet" type="text/css" />
+    <style>
+      .flanker-stimulus {
+        font-size: 500%; color: white;
+      }
+      .debrief-text {
+        font-size: 25px; color: white;
+      }
+    </style>
+  </head>
+  <body style="background-color:black;"><font color="white"></font></body>
+  <script>
+
+    var jsPsych = initJsPsych({
+      on_finish: function() {
+        const d = new Date();
+        const ee = d.getMilliseconds();
+        const millis = Date.now();
+        var csv=jsPsych.data.get().localSave('csv', 'flankerLettersData_'+d+'_milliseconds_'+ee+'_utc_'+millis+'.csv');
+        jsPsych.data.displayData();
+      }
+    });
+    
+	
+    const introduction = {
+      type: jsPsychHtmlKeyboardResponse,
+      stimulus: '<p><font color="white">Quickly push the right or left arrow keys, depending on the direction of the central arrow. Press E to start.</font></p>',
+
+      choices: ['e']
+    }	
+	
+
+
+    const blockbreak = {
+      type: jsPsychHtmlKeyboardResponse,
+      stimulus: '<p><font color="white">Block complete. Press E to continue.</font></p>',
+
+      choices: ['e']
+    }	
+	
+	
+		
+	
+    var test_stimuli = [
+      { stimulus: "HHHKHHH", data: { stim_type: 'congruent'} },
+      { stimulus: "CCCSCCC", data: { stim_type: 'congruent'} },
+      { stimulus: "CCCHCCC", data: { stim_type: 'incongruent'} },
+      { stimulus: "HHHSHHH", data: { stim_type: 'incongruent'} }
+    ];
+
+
+
+    var test = {
+      timeline: [{
+        type: jsPsychHtmlKeyboardResponse,
+        choices: ["ArrowLeft", "ArrowRight"],
+        stimulus: jsPsych.timelineVariable('stimulus'),
+        data: jsPsych.timelineVariable('data'),
+        post_trial_gap: 1000,
+		trial_duration: 1500,
+        response_ends_trial: true,
+        css_classes: ['flanker-stimulus']
+      }],
+      timeline_variables: test_stimuli,
+      sample: {type: 'fixed-repetitions', size: 15}
+    };
+
+
+    var con_stimuli = [
+      { stimulus: "HHHKHHH", data: { stim_type: 'congruent'} },
+      { stimulus: "CCCSCCC", data: { stim_type: 'congruent'} }
+    ];
+
+
+    var con_test = {
+      timeline: [{
+        type: jsPsychHtmlKeyboardResponse,
+        choices: ["ArrowLeft", "ArrowRight"],
+        stimulus: jsPsych.timelineVariable('stimulus'),
+        data: jsPsych.timelineVariable('data'),
+        post_trial_gap: 1000,
+		trial_duration: 1500,
+        response_ends_trial: true,
+        css_classes: ['flanker-stimulus']
+      }],
+      timeline_variables: con_stimuli,
+      sample: {type: 'fixed-repetitions', size: 25}
+    };
+
+    var inc_stimuli = [
+
+      { stimulus: "CCCHCCC", data: { stim_type: 'incongruent'} },
+      { stimulus: "HHHSHHH", data: { stim_type: 'incongruent'} }
+    ];
+
+
+    var inc_test = {
+      timeline: [{
+        type: jsPsychHtmlKeyboardResponse,
+        choices: ["ArrowLeft", "ArrowRight"],
+        stimulus: jsPsych.timelineVariable('stimulus'),
+        data: jsPsych.timelineVariable('data'),
+        post_trial_gap: 1000,
+		trial_duration: 1500,
+        response_ends_trial: true,
+        css_classes: ['flanker-stimulus']
+      }],
+      timeline_variables: inc_stimuli,
+      sample: {type: 'fixed-repetitions', size: 25}
+    };
+
+
+    var timeline = [];
+    timeline.push(introduction);
+    timeline.push(test);
+    timeline.push(blockbreak);
+    timeline.push(con_test);
+    timeline.push(blockbreak);
+    timeline.push(inc_test);
+    timeline.push(blockbreak);
+    timeline.push(con_test);
+    timeline.push(blockbreak);
+    timeline.push(inc_test);
+
+
+    jsPsych.run(timeline);
+
+  </script>
+</html>
