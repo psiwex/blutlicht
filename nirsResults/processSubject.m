@@ -76,6 +76,7 @@ vft3=subBlock.vft3;
 vft1Epochs=[];
 for ii=1:length(vft1)
     vft1Epochs(ii,:,:)=vft((vft1(ii)+1):(vft1(ii)+vftPost),:);
+    
 end
 
 vft2Epochs=[];
@@ -104,6 +105,7 @@ fbIncRaw=[abs((flSampl-5*flPost)-1); abs((flSampl-3*flPost)-1); abs((flSampl-1*f
 flankerConEpochs=[];
 for ii=1:length(fbConRaw)
     flankerConEpochs(ii,:,:)=flanker((fbConRaw(ii)+1):(fbConRaw(ii)+flPost),:);
+
 end
 if (abs(fbConRaw(1)-fbIncRaw(1))==1)
 fbIncRaw=fbIncRaw+flPost;
@@ -111,6 +113,7 @@ end
 flankerIncEpochs=[];
 for ii=1:length(fbIncRaw)
     flankerIncEpochs(ii,:,:)=flanker(fbIncRaw(ii):(fbIncRaw(ii)+flPost),:);
+
 end
 
 %% averaging and thresholding

@@ -126,3 +126,4 @@ flankIncs=(flaInc);
 % flanker
 [hF2,pF2]=ttest2(mean(flankCons),mean(flankIncs));
 
+xx=[dorWins(:),dorLoss(:),vft1Means(:),vft2Means(:),vft3Means(:),flankCons(:),flankIncs(:)];

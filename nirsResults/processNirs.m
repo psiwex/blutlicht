@@ -26,10 +26,13 @@ filteredData=data;
 %filteredData = bandpass(filteredData,[0.001 .1],fs);
 
 filteredData = bandpass(filteredData,[.001*fs .999*fs/2],fs);
+%filteredData = bandpass(filteredData,[.01 2.49],fs);
+filteredData=filteredData./max(max(abs(filteredData)));
+                                            
 %filteredData = bandpass(filteredData,[.01 .5],fs);
 
 %filteredData=smoothdata(filteredData);
-
+%
 %filteredData=detrend(filteredData);
 
 %filteredData=filteredData-mean(filteredData);
