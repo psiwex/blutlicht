@@ -28,6 +28,12 @@ doors2Los=subBlock.doors2Los;
 % win
 d1WEpochs=[];
 
+% if subBlock.id=='04'
+% d1=-1*d1;
+% d2=-1*d2;
+% 
+% end
+
 if subBlock.id=='08'
 for ii=1:(length(doors1Win)-1)
 
@@ -66,6 +72,12 @@ dL=[d1LEpochs; d2LEpochs];
 
 %% vft
 vft=subBlock.vft;
+% 
+% if subBlock.id=='04'
+% vft=-1*vft;
+% 
+% end
+% 
 
 vft1=subBlock.vft1;
 vft2=subBlock.vft2;
@@ -91,6 +103,12 @@ end
 
 %% flanker
 flanker=subBlock.flanker;
+
+% if subBlock.id=='04'
+% flanker=-1*flanker;
+% end
+% 
+
 fbIncRaw=subBlock.flankerInc;
 fbConRaw=subBlock.flankerCon;
 
